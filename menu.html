@@ -28,6 +28,9 @@
 </head>
 <body class="page-menu">
 <a class="skip" href="#main">Skip to content</a>
+<!-- CLIENT SIGN-OFF: this build uses 3014 Main St. Their current site says 3010;
+     press coverage and the sidewalk sign in their own photography read 3014.
+     Confirm the correct street number before launch. -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -146,7 +149,7 @@
         <p class="eyebrow">The bar</p>
         <h2 class="h2">The full list</h2>
       </div>
-      <p data-reveal>Prices live at the bar and on the menu board — we don’t publish them here because they change with the season and the pour.</p>
+      <p data-reveal>Prices are at the bar and on the menu board in the courtyard.</p>
     </div>
 
     <div class="menu-group" data-reveal>
@@ -314,6 +317,8 @@
       <p class="eyebrow" style="color:var(--ink-70)">The walk-up kitchen</p>
       <h2 class="h2" style="color:var(--ink)">Real food,<br>through a window.</h2>
       <p style="color:var(--ink-70)">Southern comfort food with a creative twist. Fried, braised, and finished with something you didn’t expect — the kind of cooking that tastes like a Sunday and eats like a Friday. Order at the window, take a number, and eat in the courtyard.</p>
+      <!-- CLIENT SIGN-OFF: 6:30 AM weekday service is delayed until after phase two.
+           Do not advertise morning hours until it opens. -->
       <div class="note-box" style="border-color:var(--ink)">
         <strong>Full menu posting soon</strong>
         <span>The window is open nightly. Ask at the counter for what’s on today.</span>
@@ -333,9 +338,12 @@
         <p class="capture__sub">Event nights, chapel dates, and what’s coming in phase two. One email when there’s something worth telling you.</p>
       </div>
       <div data-reveal>
-        <!-- CLIENT SIGN-OFF: replace data-endpoint with a live form endpoint
-             (Formspree, Buttondown, Klaviyo, etc.) before launch. Until then
-             this submits as a pre-filled email to the address below. -->
+        <!-- CLIENT SIGN-OFF — FORM ENDPOINT.
+             This newsletter form has no backend. data-mailto is a fallback that
+             opens the visitor's mail client; it will lose most signups. Add a
+             live endpoint (Formspree, Buttondown, Klaviyo) by setting
+             data-endpoint on this form before launch. hello@bootsandboozetx.com
+             is a placeholder address and must be replaced with a real inbox. -->
         <form class="cform" action="#" method="post"
               data-mailto="hello@bootsandboozetx.com"
               data-subject="Newsletter signup — bootsandboozetx.com"

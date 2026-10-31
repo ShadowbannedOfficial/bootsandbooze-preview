@@ -28,6 +28,9 @@
 </head>
 <body class="page-events">
 <a class="skip" href="#main">Skip to content</a>
+<!-- CLIENT SIGN-OFF: this build uses 3014 Main St. Their current site says 3010;
+     press coverage and the sidewalk sign in their own photography read 3014.
+     Confirm the correct street number before launch. -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -267,9 +270,12 @@
         <p class="capture__sub">Event nights, chapel dates, and what’s coming in phase two. One email when there’s something worth telling you.</p>
       </div>
       <div data-reveal>
-        <!-- CLIENT SIGN-OFF: replace data-endpoint with a live form endpoint
-             (Formspree, Buttondown, Klaviyo, etc.) before launch. Until then
-             this submits as a pre-filled email to the address below. -->
+        <!-- CLIENT SIGN-OFF — FORM ENDPOINT.
+             This newsletter form has no backend. data-mailto is a fallback that
+             opens the visitor's mail client; it will lose most signups. Add a
+             live endpoint (Formspree, Buttondown, Klaviyo) by setting
+             data-endpoint on this form before launch. hello@bootsandboozetx.com
+             is a placeholder address and must be replaced with a real inbox. -->
         <form class="cform" action="#" method="post"
               data-mailto="hello@bootsandboozetx.com"
               data-subject="Newsletter signup — bootsandboozetx.com"
