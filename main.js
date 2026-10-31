@@ -157,6 +157,80 @@
   }
 
   /* ---------------------------------------------------------------------
+     Background video
+     Decorative loops inside .hero__bg / .phero__bg / .band__bg. The markup
+     ships with autoplay so a browser that never runs this file still gets the
+     loop, which means every path that decides NOT to play has to strip the
+     attribute as well as pause — leaving autoplay on would play it regardless.
+     The poster is the real content; the video only ever decorates it.
+     --------------------------------------------------------------------- */
+  function initBgVideo() {
+    var vids = document.querySelectorAll('.hero__bg video, .phero__bg video, .band__bg video');
+    if (!vids.length) return;
+
+    var i;
+
+    /* Whether to hold the poster. Spending bytes is the concern, not looks: on
+       a phone over cellular a 4-6 MB background loop is real money, and the
+       poster already carries the frame. Load-time check only — re-testing on
+       resize risks starting a download the visitor never asked for. */
+    var conn = navigator.connection;
+    var thrifty = !!(conn && (conn.saveData || /2g/.test(conn.effectiveType || '')));
+    var wide = window.matchMedia('(min-width: 900px)').matches;
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (!wide || thrifty || reduce) {
+      for (i = 0; i < vids.length; i++) {
+        (function (v) {
+          v.removeAttribute('autoplay');
+          v.pause();
+          // Belt and braces: if the parser's own autoplay already started,
+          // catch it and stop it rather than let it buffer.
+          v.addEventListener('play', function () { v.pause(); });
+        })(vids[i]);
+      }
+      return;
+    }
+
+    // A video that fails just leaves the poster showing. Nothing else.
+    var dead = [];
+    var kill = function (v) {
+      return function () {
+        if (dead.indexOf(v) !== -1) return;
+        dead.push(v);
+        v.pause();
+        if (io) io.unobserve(v);
+      };
+    };
+
+    var play = function (v) {
+      if (dead.indexOf(v) !== -1) return;
+      var p = v.play();
+      if (p && typeof p.catch === 'function') p.catch(function () {}); // blocked autoplay must never throw
+    };
+
+    var io = null;
+    if ('IntersectionObserver' in window) {
+      // preload="none", so nothing is fetched until a slot comes near the
+      // viewport; pausing it again on the way out keeps the cost to one slot.
+      io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          if (en.isIntersecting) play(en.target);
+          else en.target.pause();
+        });
+      }, { rootMargin: '200px 0px' });
+    }
+
+    for (i = 0; i < vids.length; i++) {
+      vids[i].addEventListener('error', kill(vids[i]));
+      var srcs = vids[i].getElementsByTagName('source');
+      for (var j = 0; j < srcs.length; j++) srcs[j].addEventListener('error', kill(vids[i]));
+      if (io) io.observe(vids[i]);
+      else play(vids[i]); // no IntersectionObserver: no way to be lazy, so play everything once
+    }
+  }
+
+  /* ---------------------------------------------------------------------
      Current year
      --------------------------------------------------------------------- */
   function initYear() {
@@ -215,6 +289,7 @@
     initHeader();
     initNav();
     initReveal();
+    initBgVideo();
     initYear();
     initForms();
     // Keep the pill honest on long sessions.
